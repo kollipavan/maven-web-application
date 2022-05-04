@@ -99,13 +99,13 @@
 	    <repository>
 	      <id>nexus</id>
 	      <name>Mithun Technologies Releases Nexus Repository</name>
-	      <url>http://13.233.118.231:8081/repository/instagram-release/></url>
+	      <url>http://15.207.249.246:8081/repository/instagram-release/</url>
 	    </repository>
 	    
 	    <snapshotRepository>
 	      <id>nexus</id>
 	      <name>Mithun Technologies Snapshot Nexus Repository </name>
-	      <url>http://13.233.118.231:8081/repository/instagram-snapshot/</url>
+	      <url>http://15.207.249.246:8081/repository/instagram-snapshot/</url>
 	    </snapshotRepository>
 	    
 	</distributionManagement>
