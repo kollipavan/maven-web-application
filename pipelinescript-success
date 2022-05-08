@@ -1,0 +1,30 @@
+node{
+    
+    echo "job name is: ${env.JOB_NAME}" 
+    echo "job name is: ${env.BUILD_NUMBER}" 
+    echo "job name is: ${env.JENKINS_URL}" 
+    
+    def mavenHome=tool name:'maven 3.8.4'
+    //Get the code from GitHub Repo
+    stage('CheckoutCode'){
+        git branch: 'development', credentialsId: 'bf6fb5c2-9f48-4fef-94dc-9572ed7853b0', url: 'https://github.com/kollipavan/maven-web-application.git'
+    }
+    //Do the build by using Maven build tool
+    stage('Build'){
+        sh "${mavenHome}/bin/mvn clean package"
+    }
+    //Execute the SonarQube report
+    stage('ExecuteSonarQubeReport'){
+      sh "${mavenHome}/bin/mvn sonar:sonar"  
+    }
+    //Upload the artifact in artifact repository
+    stage('UploadArtificatintoNexus'){
+        sh "${mavenHome}/bin/mvn deploy" 
+    }
+    //Deploy the application into Tomcat Server
+    stage('DeployApplicationtoTomcatServer'){
+    sshagent(['2c015084-a413-4b2a-a562-a807055884b1']) {
+    sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@65.0.87.112:/opt/apache-tomcat-9.0.62/webapps/"
+    }
+    }  
+}
