@@ -56,12 +56,12 @@ def sendSlackNotifications(String buildStatus = 'STARTED') {
     sshagent(['2c015084-a413-4b2a-a562-a807055884b1']) {
     sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@65.0.87.112:/opt/apache-tomcat-9.0.62/webapps/"
     }
-    }//try closing
-    
-    catch(e){
-    currentBuild.result = "Failed"
-    }
-    finally{
-    sendSlackNotifications(currentBuild.result)
-    }
-}//nodeclosing
+    }//Try CLosing
+  catch(e){
+  currentBuild.result = "FAILED"
+  }
+  finally{
+
+sendSlackNotifications(currentBuild.result)
+}
+}//Node Closing
