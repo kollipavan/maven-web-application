@@ -1,6 +1,6 @@
 def sendSlackNotifications(String buildStatus = 'STARTED') {
  
-  buildStatus =  buildStatus ?: 'SUCCESSFUL'
+  buildStatus =  buildStatus ?: 'SUCCESS'
 
   // Default values
   def colorName = 'RED'
@@ -23,7 +23,7 @@ def sendSlackNotifications(String buildStatus = 'STARTED') {
   // Send notifications
   slackSend (color: colorCode, message: summary)
     
-    node{
+    node('slaves'){
     
     echo "job name is: ${env.JOB_NAME}" 
     echo "job name is: ${env.BUILD_NUMBER}" 
@@ -31,6 +31,7 @@ def sendSlackNotifications(String buildStatus = 'STARTED') {
     
     properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '5', daysToKeepStr: '', numToKeepStr: '5')), pipelineTriggers([pollSCM('* * * * *')])])
     def mavenHome=tool name:'maven 3.8.4'
+    
     try{
     sendSlackNotifications('STARTED')
     
@@ -55,6 +56,7 @@ def sendSlackNotifications(String buildStatus = 'STARTED') {
     stage('DeployApplicationtoTomcatServer'){
     sshagent(['2c015084-a413-4b2a-a562-a807055884b1']) {
     sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@65.0.87.112:/opt/apache-tomcat-9.0.62/webapps/"
+    }
     }
     }//Try CLosing
   catch(e){
