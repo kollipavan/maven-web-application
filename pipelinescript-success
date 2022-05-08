@@ -64,4 +64,5 @@ def sendSlackNotifications(String buildStatus = 'STARTED') {
     finally{
     sendSlackNotifications(currentBuild.result)
     }
-}//node closing
+}
+//node closing
