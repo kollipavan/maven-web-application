@@ -17,6 +17,7 @@ node{
     stage('ExecuteSonarQubeReport'){
       sh "${mavenHome}/bin/mvn sonar:sonar"  
     }
+    /*
     //Upload the artifact in artifact repository
     stage('UploadArtificatintoNexus'){
         sh "${mavenHome}/bin/mvn deploy" 
@@ -28,3 +29,4 @@ node{
     }
     }  
 }
+*/
