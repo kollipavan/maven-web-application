@@ -62,8 +62,9 @@ def sendSlackNotifications(String buildStatus = 'STARTED') {
   catch(e){
   currentBuild.result = "FAILED"
   }
-  finally{
 
+ finally{
 sendSlackNotifications(currentBuild.result)
 }
+
 }//Node Closing
