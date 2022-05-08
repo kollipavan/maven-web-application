@@ -1,5 +1,5 @@
 def sendSlackNotifications(String buildStatus = 'STARTED') {
-  // build status of null means successful
+ 
   buildStatus =  buildStatus ?: 'SUCCESSFUL'
 
   // Default values
@@ -24,14 +24,17 @@ def sendSlackNotifications(String buildStatus = 'STARTED') {
   slackSend (color: colorCode, message: summary)
     
     node{
+    
     echo "job name is: ${env.JOB_NAME}" 
     echo "job name is: ${env.BUILD_NUMBER}" 
     echo "job name is: ${env.JENKINS_URL}" 
     
     properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '5', daysToKeepStr: '', numToKeepStr: '5')), pipelineTriggers([pollSCM('* * * * *')])])
-    
-    try{
     def mavenHome=tool name:'maven 3.8.4'
+    try{
+    sendSlackNotifications('STARTED')
+    
+    
     //Get the code from GitHub Repo
     stage('CheckoutCode'){
         git branch: 'development', credentialsId: 'bf6fb5c2-9f48-4fef-94dc-9572ed7853b0', url: 'https://github.com/kollipavan/maven-web-application.git'
@@ -59,6 +62,6 @@ def sendSlackNotifications(String buildStatus = 'STARTED') {
     currentBuild.result = "Failed"
     }
     finally{
-    sendSlackNotifications(currentBuild.result}
+    sendSlackNotifications(currentBuild.result)
     }
 }//node closing
