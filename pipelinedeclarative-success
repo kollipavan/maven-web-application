@@ -29,7 +29,7 @@ tools {
   maven 'maven 3.8.4'
 }
 options {
-  timestamps
+  timestamps()
 }
     stages{
     stage('CheckOutCode'){
