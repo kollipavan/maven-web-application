@@ -28,6 +28,10 @@ pipeline{
 tools {
   maven 'maven 3.8.4'
 }
+parameters {
+  choice choices: ['development', 'uat', 'master'], description: 'Select Branch Name', name: 'Branch Name'
+}
+
 options {
   timestamps()
   buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '5', daysToKeepStr: '', numToKeepStr: '5')
